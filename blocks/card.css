@@ -1,3 +1,7 @@
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------Estilos para el card----------------------------------------------------------------------------------------------*/
+/*Estilos generales del card--------------------------------------------------------------------------------------------------------------*/
 .card {
   font-family: "Inter", Arial, sans-serif;
   border-radius: 10px;
@@ -6,7 +10,7 @@
   flex-direction: column;
   position: relative;
 }
-
+/*Estilos del título del card-------------------------------------------------------------------------------------------------------------*/
 .card__title {
   max-width: 220px;
   font-size: 24px;
@@ -17,7 +21,7 @@
   overflow: hidden;
   margin: 0;
 }
-
+/*Estilos de la descripción del card------------------------------------------------------------------------------------------------------*/
 .card__description {
   display: flex;
   justify-content: space-between;
@@ -25,13 +29,16 @@
   background: #fff;
   padding: 25px 15px 31px 21px;
 }
-
+/*Estilos de la imagen del card-----------------------------------------------------------------------------------------------------------*/
 .card__image {
   min-height: 282px;
   max-height: 282px;
   object-fit: cover;
 }
-
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------Estilos para los botones del card--------------------------------------------------------------------------------------*/
+/*Estilos del botón de like del card--------------------------------------------------------------------------------------------------*/
 .card__like-button {
   width: 21px;
   height: 19px;
@@ -41,12 +48,16 @@
   padding: 0;
   margin: 0;
 }
-
+/*Estilos del botón de like del card al pasar el mouse por encima----------------------------------------------------------------------*/
 .card__like-button:hover {
   opacity: 0.5;
   cursor: pointer;
 }
-
+/*Estilos del botón de like del card cuando está activo---------------------------------------------------------------------------------*/
+.card__like-button_is-active {
+  background: transparent url("../images/like-active.svg") no-repeat;
+}
+/*Estilos del botón de eliminar del card ------------------------------------------------------------------------------------------------*/
 .card__delete-button {
   width: 18px;
   height: 18px;
@@ -60,11 +71,7 @@
   padding: 0;
   margin: 0;
 }
-
+/*Estilos del botón de eliminar del card al pasar el mouse por encima----------------------------------------------------------------------*/
 .card__delete-button:hover {
   opacity: 0.6;
-}
-
-.card__like-button_is-active {
-  background: transparent url("../images/like-active.svg") no-repeat;
 }
