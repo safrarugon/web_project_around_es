@@ -2,7 +2,7 @@
 //-------------------------------------------------------------------------------------------------------
 //---------------Importación de validación de formularios------------------------------------------------
 //Importación de la funciónes desde el archivo validate.js-----------------------------------------------
-import { checkFormValidity, resetFormValidation } from "./validate.js";
+import { setEventListeners, resetValidation } from "./validate.js";
 //-------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 //---------------Cards data------------------------------------------------------------------------------
@@ -83,13 +83,13 @@ const newCardSubmitButton = newCardForm.querySelector(".popup__button");
 //---------------Validación de formularios---------------------------------------------------------------
 //Evento input del formulario de perfil------------------------------------------------------------------
 profileEditForm.addEventListener("input", () => {
-  //Llamada a la función checkFormValidity para validar el formulario de perfil--------------------------
-  checkFormValidity(profileEditForm, profileEditSubmitButton);
+  //Llamada a la función setEventListeners para validar el formulario de perfil--------------------------
+  setEventListeners(profileEditForm, profileEditSubmitButton);
 });
 //Evento input del formulario de card--------------------------------------------------------------------
 newCardForm.addEventListener("input", () => {
-  //Llamada a la función checkFormValidity para validar el formulario de card----------------------------
-  checkFormValidity(newCardForm, newCardSubmitButton);
+  //Llamada a la función setEventListeners para validar el formulario de card----------------------------
+  setEventListeners(newCardForm, newCardSubmitButton);
 });
 //-------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ function openModal(modal) {
 function closeModal(modal) {
   //Quita clase de apertura------------------------------------------------------------------------------
   modal.classList.remove("popup_is-opened");
-  resetFormValidation(modal);
+  resetValidation(modal);
 }
 //Funcion para cerrar el modal al hacer click fuera del contenido----------------------------------------
 function handleOverlayClick(event) {

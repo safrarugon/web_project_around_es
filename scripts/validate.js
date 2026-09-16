@@ -17,7 +17,7 @@ function showInputError(form, input) {
   }
 }
 //Función para verificar la validez del formulario y habilitar/deshabilitar el botón de envío------------
-function checkFormValidity(form, submitButton) {
+function setEventListeners(form, submitButton) {
   //Obtiene todos los inputs del formulario--------------------------------------------------------------
   const inputs = form.querySelectorAll(".popup__input");
   //Itera sobre cada input y muestra el mensaje de error correspondiente---------------------------------
@@ -29,7 +29,7 @@ function checkFormValidity(form, submitButton) {
   submitButton.disabled = !form.checkValidity();
 }
 //Función para resetear los errores de validación en el formulario---------------------------------------
-function resetFormValidation(form) {
+function resetValidation(form) {
   //Obtiene todos los inputs del formulario--------------------------------------------------------------
   const inputs = form.querySelectorAll(".popup__input");
   //Itera sobre cada input-------------------------------------------------------------------------------
@@ -48,4 +48,4 @@ function resetFormValidation(form) {
 //-------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 //---------------Exportación de funciones para validación de formularios---------------------------------
-export { checkFormValidity, resetFormValidation };
+export { setEventListeners, resetValidation };
