@@ -90,7 +90,7 @@
   margin-bottom: 10px;
 }
 /*Estilos para los inputs invalidos de los popup-----------------------------------------------------------------------------------------------*/
-.popup__input:invalid {
+.popup__input_invalid {
   border-bottom: 1px solid red;
 }
 /*Estilos para el último input de los popup----------------------------------------------------------------------------------------------------*/
@@ -135,7 +135,7 @@
   margin: 0;
 }
 /*Estilos para los mensajes de error de los popup------------------------------------------------------------------------------------------*/
-.popup__input-error {
+.popup__input_message-error {
   font-size: 12px;
   line-height: 15px;
   color: red;

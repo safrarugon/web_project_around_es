@@ -2,7 +2,7 @@
 //-------------------------------------------------------------------------------------------------------
 //---------------Importación de validación de formularios------------------------------------------------
 //Importación de la funciónes desde el archivo validate.js-----------------------------------------------
-import { checkFormValidity } from "./validate.js";
+import { checkFormValidity, resetFormValidation } from "./validate.js";
 //-------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 //---------------Cards data------------------------------------------------------------------------------
@@ -103,6 +103,7 @@ function openModal(modal) {
 function closeModal(modal) {
   //Quita clase de apertura------------------------------------------------------------------------------
   modal.classList.remove("popup_is-opened");
+  resetFormValidation(modal);
 }
 //Funcion para cerrar el modal al hacer click fuera del contenido----------------------------------------
 function handleOverlayClick(event) {
