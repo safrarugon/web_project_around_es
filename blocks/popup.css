@@ -1,7 +1,5 @@
-/*----------------------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------Estilos para los popup--------------------------------------------------------------------------------------------*/
-/*Estilos generales de los popup----------------------------------------------------------------------------------------------------------*/
+/*---Estilos para los popup*/
+/*Estilos generales de los popup*/
 .popup {
   font-family: "Inter", Arial, sans-serif;
   align-items: center;
@@ -14,7 +12,7 @@
   right: 0;
   display: none;
 }
-/*Estilos generales para los botones de los popup-----------------------------------------------------------------------------------------*/
+/*Estilos generales para los botones de los popup*/
 .popup__button {
   width: 100%;
   height: 50px;
@@ -29,22 +27,22 @@
   border: none;
   margin-top: 48px;
 }
-/*Estilos para los botones de los popup cuando se pasa el cursor sobre ellos---------------------------------------------------------------*/
+/*Estilos para los botones de los popup cuando se pasa el cursor sobre ellos*/
 .popup__button:hover {
   background: rgba(0, 0, 0, 0.8);
   cursor: pointer;
 }
-/*Estilos para los botones de los popup cuando están deshabilitados------------------------------------------------------------------------*/
+/*Estilos para los botones de los popup cuando están deshabilitados*/
 .popup__button:disabled {
   background: rgb(255, 255, 255);
   color: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
-/*Estilos para los botones de los popup cuando están deshabilitados y se pasa el cursor sobre ellos----------------------------------------*/
+/*Estilos para los botones de los popup cuando están deshabilitados y se pasa el cursor sobre ellos*/
 .popup__button:disabled:hover {
   cursor: not-allowed;
 }
-/*Estilos para el botón de cierre de los popup---------------------------------------------------------------------------------------------*/
+/*Estilos para el botón de cierre de los popup*/
 .popup__close {
   width: 35px;
   height: 35px;
@@ -58,11 +56,11 @@
   margin: 0;
   cursor: pointer;
 }
-/*Estilos para el botón de cierre de los popup cuando se pasa el cursor sobre él-----------------------------------------------------------*/
+/*Estilos para el botón de cierre de los popup cuando se pasa el cursor sobre él*/
 .popup__close:hover {
   opacity: 0.6;
 }
-/*Estilos generales del contenido de los popup---------------------------------------------------------------------------------------------*/
+/*Estilos generales del contenido de los popup*/
 .popup__content {
   max-width: 430px;
   width: 100%;
@@ -73,11 +71,11 @@
   box-sizing: border-box;
   padding: 34px 36px;
 }
-/*Estilos para los formularios de los popup-------------------------------------------------------------------------------------------------*/
+/*Estilos para los formularios de los popup*/
 .popup__form {
   margin-top: 27px;
 }
-/*Estilos para los inputs de los popup----------------------------------------------------------------------------------------------------*/
+/*Estilos para los inputs de los popup*/
 .popup__input {
   width: 100%;
   height: 47px;
@@ -89,26 +87,26 @@
   padding: 10px 0 0;
   margin-bottom: 10px;
 }
-/*Estilos para los inputs invalidos de los popup-----------------------------------------------------------------------------------------------*/
+/*Estilos para los inputs invalidos de los popup*/
 .popup__input_invalid {
   border-bottom: 1px solid red;
 }
-/*Estilos para el último input de los popup----------------------------------------------------------------------------------------------------*/
+/*Estilos para el último input de los popup*/
 .popup__input:last-of-type {
   margin-bottom: 0;
 }
-/*Estilos para los títulos de los popup----------------------------------------------------------------------------------------------------*/
+/*Estilos para los títulos de los popup*/
 .popup__title {
   margin: 0;
   font-size: 24px;
   font-weight: 900;
   line-height: 30px;
 }
-/*Estilos para abrir los popup cuando se hace clic en un botón----------------------------------------------------------------------------*/
+/*Estilos para abrir los popup cuando se hace clic en un botón*/
 .popup_is-opened {
   display: flex;
 }
-/*Estilos para el contenido de los popup cuando se muestra una imagen---------------------------------------------------------------------*/
+/*Estilos para el contenido de los popup cuando se muestra una imagen*/
 .popup__content_content_image {
   max-width: 75vw;
   max-height: 75vh;
@@ -119,12 +117,12 @@
   border-radius: 0;
   padding: 0;
 }
-/*Estilos para las imágenes de los popup--------------------------------------------------------------------------------------------------*/
+/*Estilos para las imágenes de los popup*/
 .popup__image {
   max-width: 100%;
   object-fit: cover;
 }
-/*Estilos para los subtítulos de los popup------------------------------------------------------------------------------------------------*/
+/*Estilos para los subtítulos de los popup*/
 .popup__caption {
   font-size: 12px;
   line-height: 15px;
@@ -134,8 +132,8 @@
   top: calc(100% + 10px);
   margin: 0;
 }
-/*Estilos para los mensajes de error de los popup------------------------------------------------------------------------------------------*/
-.popup__input_message-error {
+/*Estilos para los mensajes de error de los popup*/
+.popup__input-error {
   font-size: 12px;
   line-height: 15px;
   color: red;
@@ -143,43 +141,44 @@
   margin-top: 8px;
   margin-bottom: 8px;
 }
-/*Media query para pantallas con un ancho máximo de 544px-----------------------------------------------------------------------------------*/
+/*Media query*/
+/*Pantallas con un ancho máximo de 544px*/
 @media screen and (max-width: 544px) {
-  /*Estilos generales de los popup----------------------------------------------------------------------------------------------------------*/
+  /*Estilos generales de los popup*/
   .popup {
     bottom: 112px;
   }
-  /*Estilos generales para los botones de los popup-----------------------------------------------------------------------------------------*/
+  /*Estilos generales para los botones de los popup*/
   .popup__button {
     font-size: 14px;
     line-height: 17px;
     margin-top: 46px;
     height: 46px;
   }
-  /*Estilos para el botón de cierre de los popup---------------------------------------------------------------------------------------------*/
+  /*Estilos para el botón de cierre de los popup*/
   .popup__close {
     right: 7px;
     top: -30px;
     width: 20px;
     height: 20px;
   }
-  /*Estilos generales del contenido de los popup---------------------------------------------------------------------------------------------*/
+  /*Estilos generales del contenido de los popup*/
   .popup__content {
     width: 100%;
     max-width: calc(100% - 19px * 2);
     margin-top: 8px;
     padding: 25px 22px;
   }
-  /*Estilos para los formularios de los popup-------------------------------------------------------------------------------------------------*/
+  /*Estilos para los formularios de los popup*/
   .popup__form {
     margin-top: 53px;
   }
-  /*Estilos para los títulos de los popup----------------------------------------------------------------------------------------------------*/
+  /*Estilos para los títulos de los popup*/
   .popup__title {
     font-size: 18px;
     line-height: 22px;
   }
-  /*Estilos para el contenido de los popup cuando se muestra una imagen---------------------------------------------------------------------*/
+  /*Estilos para el contenido de los popup cuando se muestra una imagen*/
   .popup__content_content_image {
     max-width: 75vw;
     padding: 0;

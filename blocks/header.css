@@ -1,7 +1,5 @@
-/*----------------------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------Estilos para el header--------------------------------------------------------------------------------------------*/
-/*Estilos generales del header------------------------------------------------------------------------------------------------------------*/
+/*---Estilos para el header*/
+/*Estilos generales del header*/
 .header {
   min-height: 120px;
   font-family: "Inter", Arial, sans-serif;
@@ -9,19 +7,19 @@
   align-items: center;
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
 }
-/*Estilos para el logo del header---------------------------------------------------------------------------------------------------------*/
+/*Estilos para el logo del header*/
 .header__logo {
   width: 173px;
   height: 33px;
   object-fit: contain;
 }
-/*Media query para pantallas con un ancho máximo de 544px---------------------------------------------------------------------------------*/
+/*Media query*/
 @media screen and (max-width: 544px) {
-  /*Estilos generales del header----------------------------------------------------------------------------------------------------------*/
+  /*Estilos generales del header*/
   .header {
     min-height: 85px;
   }
-  /*Estilos para el logo del header-------------------------------------------------------------------------------------------------------*/
+  /*Estilos para el logo del header*/
   .header__logo {
     width: 126px;
     height: 24px;
