@@ -33,6 +33,7 @@ function setEventListeners(form, submitButton) {
   //Llama a la funcion para habilitar o deshabilitar el botón de envío según la validez del formulario
   toggleButtonState(form, submitButton);
 }
+
 //Función para resetear los errores de validación en el formulario
 function resetValidation(form) {
   //Obtiene todos los inputs del formulario
