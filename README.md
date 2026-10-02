@@ -87,11 +87,14 @@ La aplicación está organizada por responsabilidades:
 
 ```text
 .
-├── public/                         # Sitio ejecutable y salida compilada
-│   ├── index.html                  # Documento HTML principal
-│   ├── blocks/                     # Hojas de estilo por bloque BEM
-│   ├── images/                     # Imágenes e iconos
-│   ├── pages/index.css             # Hoja de estilos principal
+├── index.html                      # Entrada raíz compatible con TripleTen
+├── blocks/                         # Hojas de estilo fuente por bloque BEM
+├── images/                         # Imágenes e iconos fuente
+├── pages/index.css                 # Hoja de estilos fuente principal
+├── scripts/index.js                # Puente hacia el código compilado
+├── public/                         # Sitio y salida TypeScript compilada
+│   ├── index.html                  # Entrada compilada independiente
+│   ├── blocks/, images/, pages/    # Recursos estáticos del sitio
 │   ├── components/                 # JavaScript compilado de las clases
 │   ├── scripts/index.js            # Punto de entrada JavaScript compilado
 │   ├── types/                      # Salida compilada de los tipos
@@ -102,12 +105,13 @@ La aplicación está organizada por responsabilidades:
 │   ├── types/types.ts              # Tipos e interfaces compartidos
 │   └── utils/constants.ts          # Configuración de formularios
 ├── vendor/                         # Fuentes y estilos normalizados
+├── .gitignore                      # Archivos excluidos de Git
 ├── tsconfig.json                   # Configuración del compilador TypeScript
 ├── .prettierignore
 └── README.md
 ```
 
-Los archivos `.js` de `public/` se generan a partir de `src/` y son los que carga el navegador. El HTML utiliza módulos ES mediante:
+Los archivos `.js` de `public/` se generan a partir de `src/`. La entrada raíz conserva la estructura esperada por TripleTen y carga el puente `scripts/index.js`, que importa el código compilado. También se puede abrir la entrada independiente de `public/`. Ambos utilizan módulos ES mediante:
 
 ```html
 <script type="module" src="./scripts/index.js"></script>
@@ -138,11 +142,11 @@ npx --yes --package=typescript@5.9.2 tsc --noEmit
 
 ## Ejecución local
 
-Después de compilar, sirve la carpeta `public/` con un servidor local. Por ejemplo, usando la extensión **Live Server** de Visual Studio Code:
+Después de compilar, sirve la raíz del proyecto con un servidor local y abre `index.html`. Esta entrada utiliza los recursos CSS ubicados en la raíz y el JavaScript compilado de `public/`. También puedes servir directamente `public/index.html`.
 
 1. Abre la carpeta del proyecto.
 2. Ejecuta la compilación de TypeScript.
-3. Inicia Live Server sobre `public/index.html`.
+3. Inicia Live Server sobre `index.html` o sobre `public/index.html`.
 
 Es recomendable utilizar un servidor local porque los módulos ES pueden bloquearse al abrir directamente el archivo mediante `file://`.
 
