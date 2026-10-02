@@ -1,131 +1,179 @@
-Around The U.S.
-Proyecto desarrollado como parte del curso de Desarrollo Web de TripleTen.
+# Around The U.S.
 
-Descripción
-Around The U.S. es una página web interactiva en la que el usuario puede visualizar una colección de lugares, crear nuevas tarjetas con imágenes y modificar la información de su perfil.
+Proyecto desarrollado como parte del curso de Desarrollo Web de [TripleTen](https://tripleten.com/).
 
-El proyecto está enfocado en practicar la estructura de una página web con HTML, el diseño responsivo con CSS y la interacción dinámica mediante JavaScript.
+## Descripción
 
-Funcionalidades
-    Perfil
-        Visualización del nombre del usuario.
-        Visualización de una descripción o profesión.
-        Edición del nombre y la descripción mediante un formulario modal.
-        Actualización de la información del perfil sin recargar la página.
-        
-    Tarjetas
-        Carga inicial de una colección de tarjetas con diferentes lugares.
-        Creación de nuevas tarjetas mediante un formulario.
-        Las nuevas tarjetas pueden recibir un título y una URL de imagen.
-        Eliminación de tarjetas.
-        Función de "Me gusta" para activar o desactivar el estado de una tarjeta.
-        Visualización ampliada de la imagen y su título mediante un modal.
+Around The U.S. es una página web interactiva en la que el usuario puede explorar una colección de lugares, crear nuevas tarjetas con imágenes y modificar la información de su perfil.
 
-    Modales
-        El proyecto utiliza ventanas modales para:
-            Editar el perfil.
-            Crear una nueva tarjeta.
-            Visualizar una imagen en tamaño ampliado.
-    
-    Formularios
-        Para los perfiles y las tarjetas
-        Valida los datos de los formularios
+La lógica del proyecto fue refactorizada de JavaScript a **TypeScript** aplicando principios de **programación orientada a objetos**, como encapsulamiento, herencia, polimorfismo, abstracción y bajo acoplamiento entre componentes.
 
-Enlaces del proyecto
-    Repositorio en GitHub: https://github.com/safrarugon/web_project_around_es.git
-    Proyecto publicado: https://safrarugon.github.io/web_project_around_es/
+## Funcionalidades
 
-Tecnologías utilizadas
-    HTML5 — estructura semántica de la página.
-    CSS3 — estilos, distribución y diseño responsivo.
-    JavaScript — manipulación del DOM, eventos, formularios y generación dinámica de tarjetas.
+### Perfil
 
-Estructura principal
+- Visualización del nombre y la descripción del usuario.
+- Edición del perfil mediante un formulario modal.
+- Actualización de la información sin recargar la página.
+- Reinicio de la validación cada vez que se abre el modal.
+
+### Tarjetas
+
+- Renderizado de tarjetas iniciales a partir de un arreglo de datos.
+- Creación de nuevas tarjetas mediante un formulario.
+- Título y URL de imagen validados mediante HTML y TypeScript.
+- Activación y desactivación del estado de Me gusta.
+- Eliminación de tarjetas.
+- Visualización ampliada de la imagen y su título mediante un modal.
+
+### Ventanas emergentes
+
+El proyecto utiliza ventanas emergentes para:
+
+- Editar el perfil.
+- Crear una tarjeta.
+- Visualizar una imagen ampliada.
+- Cerrar mediante el botón correspondiente, el área sombreada o la tecla `Escape`.
+
+### Validación de formularios
+
+La clase `FormValidator` se encarga de:
+
+- Comprobar la validez de los campos.
+- Mostrar los mensajes de error del navegador.
+- Aplicar y eliminar las clases visuales de error.
+- Activar o desactivar el botón de envío.
+- Reiniciar el estado visual del formulario.
+
+## Tecnologías utilizadas
+
+- HTML5.
+- CSS3 y diseño responsivo.
+- TypeScript con comprobación estricta.
+- JavaScript ES2022 generado a partir de TypeScript.
+- Manipulación del DOM.
+- Módulos ES.
+- Programación orientada a objetos.
+- Plantillas HTML (`template`).
+- Formularios y validación nativa del navegador.
+
+## Arquitectura TypeScript
+
+La aplicación está organizada por responsabilidades:
+
+| Archivo | Responsabilidad |
+| --- | --- |
+| `src/scripts/index.ts` | Punto de entrada y coordinación de la aplicación. |
+| `src/components/Card.ts` | Construcción y comportamiento de una tarjeta. |
+| `src/components/Section.ts` | Renderizado de colecciones y agregado de elementos al contenedor. |
+| `src/components/FormValidator.ts` | Validación tipada de formularios. |
+| `src/components/Popup.ts` | Comportamiento base de las ventanas emergentes. |
+| `src/components/PopupWithImage.ts` | Popup especializado para imágenes. |
+| `src/components/PopupWithForm.ts` | Popup especializado para formularios. |
+| `src/components/UserInfo.ts` | Lectura y actualización de la información del usuario. |
+| `src/types/types.ts` | Interfaces y tipos compartidos. |
+| `src/utils/constants.ts` | Selectores y clases de configuración de los formularios. |
+
+### Principios de POO aplicados
+
+- **Encapsulamiento:** cada clase administra su propio estado y comportamiento.
+- **Abstracción:** los detalles del DOM quedan separados de la coordinación principal.
+- **Herencia:** `PopupWithImage` y `PopupWithForm` heredan de `Popup`.
+- **Polimorfismo:** las clases hijas sobrescriben métodos como `open()`, `setEventListeners()` y `close()`.
+- **Bajo acoplamiento:** `Card` recibe un callback para abrir el popup de imagen sin depender directamente de su implementación.
+- **Genéricos:** `Section<T>` puede renderizar colecciones de distintos tipos de datos.
+
+## Estructura del proyecto
+
+```text
 .
-├── blocks
-│   └── card.css
-│   └── cards.css
-│   └── content.css
-│   └── footer.css
-│   └── header.css
-│   └── page.css
-│   └── popup.css
-│   └── profile.css
-├── images/
-│   └── add-icon.svg
-│   └── avatar.jpg
-│   └── close.svg
-│   └── delete-icon
-│   └── edit-icon.svg
-│   └── like-active.svg
-│   └── like-inactive.svg
-│   └── logo.svg
-│   └── placeholder.jpg
-├── pages/
-│   └── index.css
-├── scripts/
-│   └── index.js
-│   └── validate.js
-├── vendor/
-│   └── fonts/
-│       └── fonts.css
-│       └── normalize.css
-└── .prettierignore
-├── index.html
+├── public/                         # Sitio ejecutable y salida compilada
+│   ├── index.html                  # Documento HTML principal
+│   ├── blocks/                     # Hojas de estilo por bloque BEM
+│   ├── images/                     # Imágenes e iconos
+│   ├── pages/index.css             # Hoja de estilos principal
+│   ├── components/                 # JavaScript compilado de las clases
+│   ├── scripts/index.js            # Punto de entrada JavaScript compilado
+│   ├── types/                      # Salida compilada de los tipos
+│   └── utils/                      # Salida compilada de las constantes
+├── src/                            # Código fuente TypeScript
+│   ├── components/                 # Clases de la aplicación
+│   ├── scripts/index.ts            # Punto de entrada TypeScript
+│   ├── types/types.ts              # Tipos e interfaces compartidos
+│   └── utils/constants.ts          # Configuración de formularios
+├── vendor/                         # Fuentes y estilos normalizados
+├── tsconfig.json                   # Configuración del compilador TypeScript
+├── .prettierignore
 └── README.md
+```
 
+Los archivos `.js` de `public/` se generan a partir de `src/` y son los que carga el navegador. El HTML utiliza módulos ES mediante:
 
-JavaScript
-    La lógica principal se encuentra en scripts/index.js.
-    La logica de validación de formularios en validate.js
+```html
+<script type="module" src="./scripts/index.js"></script>
+```
 
-Entre las funciones implementadas se encuentran:
+## Compilación
 
-    openModal() y closeModal() para controlar la apertura y cierre de ventanas modales.
-    fillProfileForm() para cargar los datos actuales del perfil en el formulario.
-    handleProfileFormSubmit() para actualizar la información del perfil.
-    handleCardFormSubmit() para procesar la creación de nuevas tarjetas.
-    renderCard() para agregar tarjetas al listado.
-    getCardElement() para generar cada tarjeta a partir de una plantilla HTML.
+El proyecto no depende de un `package.json`; se puede utilizar TypeScript mediante `npx`.
 
-Las tarjetas iniciales se almacenan en el arreglo initialCards y se renderizan dinámicamente al cargar la página.
+Desde la raíz del proyecto, ejecuta:
 
-Manipulación del DOM
-    Uno de los objetivos principales del proyecto es practicar la interacción entre JavaScript y los elementos HTML.
+```bash
+npx --yes --package=typescript@5.9.2 tsc
+```
 
-El código utiliza métodos como:
-    querySelector()
-    addEventListener()
-    classList.toggle()
-    cloneNode()
-    append()
-    remove()
+El comando:
 
-Esto permite modificar el contenido y comportamiento de la página directamente desde JavaScript.
+- Lee los archivos `.ts` incluidos en `src/`.
+- Comprueba los tipos usando `strict: true`.
+- Genera JavaScript ES2022 en `public/`.
+- Genera mapas de código fuente (`.js.map`).
 
-Accesibilidad
-    Se utilizan atributos aria-label en botones que funcionan mediante iconos para proporcionar una descripción de su función, por ejemplo:
-        Editar perfil.
-        Agregar tarjeta.
-        Eliminar tarjeta.
-        Me gusta.
-        Cerrar ventanas emergentes.
+Para comprobar los tipos sin generar archivos:
 
-También se asigna el atributo alt de las imágenes de las tarjetas utilizando el nombre del lugar.
+```bash
+npx --yes --package=typescript@5.9.2 tsc --noEmit
+```
 
-Objetivo académico
-    Este proyecto forma parte del proceso de aprendizaje del curso de Desarrollo Web de TripleTen y permite poner en práctica conceptos fundamentales del desarrollo frontend:
-        Estructuración de documentos HTML.
-        Diseño mediante CSS.
-        Diseño responsivo.
-        Manipulación del DOM.
-        Manejo de eventos.
-        Formularios.
-        Uso de plantillas HTML.
-        Creación dinámica de elementos.
-        Organización de código JavaScript.
+## Ejecución local
 
-Autor
+Después de compilar, sirve la carpeta `public/` con un servidor local. Por ejemplo, usando la extensión **Live Server** de Visual Studio Code:
+
+1. Abre la carpeta del proyecto.
+2. Ejecuta la compilación de TypeScript.
+3. Inicia Live Server sobre `public/index.html`.
+
+Es recomendable utilizar un servidor local porque los módulos ES pueden bloquearse al abrir directamente el archivo mediante `file://`.
+
+## Accesibilidad
+
+- Los botones con iconos incluyen atributos `aria-label`.
+- Las imágenes de las tarjetas reciben un texto alternativo basado en su título.
+- Los formularios utilizan controles nativos de HTML como `required`, `minlength`, `maxlength` y `type="url"`.
+- Los modales se pueden cerrar mediante botón, overlay o la tecla `Escape`.
+
+## Enlaces del proyecto
+
+- [Repositorio en GitHub](https://github.com/safrarugon/web_project_around_es)
+- [Proyecto publicado](https://safrarugon.github.io/web_project_around_es/)
+
+## Objetivo académico
+
+Este proyecto permite practicar:
+
+- Estructuración semántica con HTML.
+- Diseño responsivo con CSS.
+- Manipulación del DOM.
+- Manejo de eventos tipados.
+- Validación de formularios.
+- Plantillas HTML.
+- Módulos ES.
+- Refactorización de JavaScript a TypeScript.
+- Principios de programación orientada a objetos.
+
+## Autor
+
 Saúl Rubio
 
 Proyecto realizado como parte del curso de Desarrollo Web de TripleTen.
