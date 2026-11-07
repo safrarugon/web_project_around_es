@@ -132,21 +132,33 @@
   top: calc(100% + 10px);
   margin: 0;
 }
+.popup__content_confirmation {
+  min-height: auto;
+}
+.popup__confirm-button {
+  margin-top: 28px;
+}
 /*Estilos para los mensajes de error de los popup*/
 .popup__input-error {
   font-size: 12px;
   line-height: 15px;
   color: red;
-  display: block;
+  display: none;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+.popup__input-error_visible {
+  display: block;
 }
 /*Media query*/
 /*Pantallas con un ancho máximo de 544px*/
 @media screen and (max-width: 544px) {
   /*Estilos generales de los popup*/
   .popup {
-    bottom: 112px;
+    bottom: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 30px 0;
   }
   /*Estilos generales para los botones de los popup*/
   .popup__button {

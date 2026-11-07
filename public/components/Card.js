@@ -1,11 +1,13 @@
 export class Card {
     data;
     templateSelector;
-    handleCardClick;
-    constructor(data, templateSelector, handleCardClick) {
+    currentUserId;
+    handlers;
+    constructor(data, templateSelector, currentUserId, handlers) {
         this.data = data;
         this.templateSelector = templateSelector;
-        this.handleCardClick = handleCardClick;
+        this.currentUserId = currentUserId;
+        this.handlers = handlers;
     }
     getTemplate() {
         const template = document.querySelector(this.templateSelector);
@@ -21,15 +23,35 @@ export class Card {
         if (!likeButton || !deleteButton || !cardImage) {
             throw new Error("No se encontró el marcado necesario de la tarjeta.");
         }
+        likeButton.classList.toggle("card__like-button_is-active", this.data.isLiked);
         likeButton.addEventListener("click", () => {
-            likeButton.classList.toggle("card__like-button_is-active");
+            void this.handleLikeClick(likeButton);
         });
-        deleteButton.addEventListener("click", () => {
-            cardElement.remove();
-        });
+        if (this.data.owner !== this.currentUserId) {
+            deleteButton.remove();
+        }
+        else {
+            deleteButton.addEventListener("click", () => {
+                this.handlers.onDeleteClick(this.data, cardElement);
+            });
+        }
         cardImage.addEventListener("click", () => {
-            this.handleCardClick(this.data.name, this.data.link);
+            this.handlers.onImageClick(this.data.name, this.data.link);
         });
+    }
+    async handleLikeClick(likeButton) {
+        likeButton.disabled = true;
+        try {
+            const updatedCard = await this.handlers.onLikeClick(this.data);
+            this.data.isLiked = updatedCard.isLiked;
+            likeButton.classList.toggle("card__like-button_is-active", updatedCard.isLiked);
+        }
+        catch (error) {
+            console.error("No se pudo actualizar el Me gusta:", error);
+        }
+        finally {
+            likeButton.disabled = false;
+        }
     }
     generateCard() {
         const cardTemplate = this.getTemplate().content.querySelector(".card");

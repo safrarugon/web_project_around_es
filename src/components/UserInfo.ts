@@ -10,6 +10,7 @@ export class UserInfo {
   //Propiedades privadas para almacenar los elementos del nombre y la descripción del usuario
   private readonly nameElement: HTMLElement;
   private readonly descriptionElement: HTMLElement;
+  private readonly avatarElement: HTMLImageElement;
 
   //constructor que recibe un objeto de selectores para identificar los elementos del nombre y la descripción en el DOM
   constructor(selectors: UserInfoSelectors) {
@@ -19,15 +20,19 @@ export class UserInfo {
     const descriptionElement = document.querySelector<HTMLElement>(
       selectors.descriptionSelector,
     );
+    const avatarElement = document.querySelector<HTMLImageElement>(
+      selectors.avatarSelector,
+    );
 
     //Cuando los elementos no existen envia mensaje de error
-    if (!nameElement || !descriptionElement) {
+    if (!nameElement || !descriptionElement|| !avatarElement) {
       throw new Error("No se encontraron los elementos del usuario.");
     }
 
     //Asigna los valores a las propiedades de la clase
     this.nameElement = nameElement;
     this.descriptionElement = descriptionElement;
+    this.avatarElement = avatarElement;
   }
 
   //Método público para obtener la información del usuario desde los elementos del DOM
@@ -36,6 +41,7 @@ export class UserInfo {
     return {
       name: this.nameElement.textContent ?? "",
       description: this.descriptionElement.textContent ?? "",
+      avatar: this.avatarElement.src ?? "",
     };
   }
 
@@ -44,5 +50,6 @@ export class UserInfo {
     //Asigna los valores del nombre y la descripción del usuario a los elementos correspondientes en el DOM
     this.nameElement.textContent = data.name;
     this.descriptionElement.textContent = data.description;
+    this.avatarElement.src = data.avatar;
   }
 }

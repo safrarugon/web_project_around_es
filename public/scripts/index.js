@@ -1,36 +1,12 @@
-import { Card } from "../components/Card.js";
+import { Api } from "../components/Api.js";
+import { App } from "../components/App.js";
 import { FormValidator } from "../components/FormValidator.js";
+import { PopupWithConfirmation } from "../components/PopupWithConfirmation.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { Section } from "../components/Section.js";
 import { UserInfo } from "../components/UserInfo.js";
-import { defaultFormConfig } from "../utils/constants.js";
-const initialCards = [
-    {
-        name: "Valle de Yosemite",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    },
-    {
-        name: "Lago Louise",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    },
-    {
-        name: "Montañas Calvas",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
-    },
-    {
-        name: "Latemar",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
-    },
-    {
-        name: "Parque Nacional de la Vanoise",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
-    },
-    {
-        name: "Lago di Braies",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-    },
-];
+import { API_BASE_URL, API_TOKEN_STORAGE_KEY, defaultFormConfig, } from "../utils/constants.js";
 function getElement(selector) {
     const element = document.querySelector(selector);
     if (!element) {
@@ -38,69 +14,59 @@ function getElement(selector) {
     }
     return element;
 }
-const profileEditButton = getElement(".profile__edit-button");
-const cardAddButton = getElement(".profile__add-button");
-const profileEditForm = getElement("#edit-profile-form");
-const newCardForm = getElement("#new-card-form");
-const profileEditName = getElement(".popup__input_type_name");
-const profileEditDescription = getElement(".popup__input_type_description");
+const apiToken = window.sessionStorage.getItem(API_TOKEN_STORAGE_KEY) ?? "";
+if (!apiToken) {
+    console.warn(`No se encontró un token en sessionStorage con la clave "${API_TOKEN_STORAGE_KEY}".`);
+}
+const api = new Api({
+    baseUrl: API_BASE_URL,
+    headers: {
+        authorization: apiToken,
+        "Content-Type": "application/json",
+    },
+});
 const userInfo = new UserInfo({
     nameSelector: ".profile__title",
     descriptionSelector: ".profile__description",
+    avatarSelector: ".profile__image",
 });
 const imagePopup = new PopupWithImage("#image-popup");
-imagePopup.setEventListeners();
-const profileValidator = new FormValidator(defaultFormConfig, profileEditForm);
-const newCardValidator = new FormValidator(defaultFormConfig, newCardForm);
-let cardsSection;
-const renderCard = (data) => {
-    if (!cardsSection) {
-        throw new Error("La sección de tarjetas no está inicializada.");
+const confirmationPopup = new PopupWithConfirmation("#confirmation-popup");
+const profileValidator = new FormValidator(defaultFormConfig, getElement("#edit-profile-form"));
+const newCardValidator = new FormValidator(defaultFormConfig, getElement("#new-card-form"));
+const avatarValidator = new FormValidator(defaultFormConfig, getElement("#avatar-form"));
+let app;
+function getApp() {
+    if (!app) {
+        throw new Error("La aplicación todavía no está inicializada.");
     }
-    const card = new Card(data, "#card-template", (name, link) => {
-        imagePopup.open(name, link);
-    });
-    cardsSection.addItem(card.generateCard());
-};
-cardsSection = new Section({
-    items: initialCards,
-    renderer: renderCard,
+    return app;
+}
+const profilePopup = new PopupWithForm("#edit-popup", (values) => getApp().updateProfile(values));
+const newCardPopup = new PopupWithForm("#new-card-popup", (values) => getApp().addCard(values));
+const avatarPopup = new PopupWithForm("#avatar-popup", (values) => getApp().updateAvatar(values));
+const cardsSection = new Section({
+    items: [],
+    renderer: (cardData) => getApp().renderCard(cardData),
 }, ".cards__list");
-cardsSection.renderItems();
-let profilePopup;
-profilePopup = new PopupWithForm("#edit-popup", (values) => {
-    userInfo.setUserInfo({
-        name: values.name ?? "",
-        description: values.description ?? "",
-    });
-    profilePopup.close();
+app = new App({
+    api,
+    userInfo,
+    cardsSection,
+    imagePopup,
+    confirmationPopup,
+    profilePopup,
+    newCardPopup,
+    avatarPopup,
+    profileValidator,
+    newCardValidator,
+    avatarValidator,
+    profileEditButton: getElement(".profile__edit-button"),
+    cardAddButton: getElement(".profile__add-button"),
+    avatarEditButton: getElement(".profile__avatar-edit-button"),
+    profileEditName: getElement(".popup__input_type_name"),
+    profileEditDescription: getElement(".popup__input_type_description"),
+    avatarInput: getElement(".popup__input_type_avatar"),
 });
-profilePopup.setEventListeners();
-let newCardPopup;
-newCardPopup = new PopupWithForm("#new-card-popup", (values) => {
-    const name = values["place-name"];
-    const link = values.link;
-    if (!cardsSection || !name || !link) {
-        return;
-    }
-    const card = new Card({ name, link }, "#card-template", (cardName, cardLink) => {
-        imagePopup.open(cardName, cardLink);
-    });
-    cardsSection.addItem(card.generateCard());
-    newCardPopup.close();
-});
-newCardPopup.setEventListeners();
-profileEditButton.addEventListener("click", () => {
-    const currentUserInfo = userInfo.getUserInfo();
-    profileEditName.value = currentUserInfo.name;
-    profileEditDescription.value = currentUserInfo.description;
-    profileValidator.resetValidation();
-    profilePopup.open();
-});
-cardAddButton.addEventListener("click", () => {
-    newCardValidator.resetValidation();
-    newCardPopup.open();
-});
-profileValidator.enableValidation();
-newCardValidator.enableValidation();
+void app.start();
 //# sourceMappingURL=index.js.map

@@ -4,135 +4,71 @@ Proyecto desarrollado como parte del curso de Desarrollo Web de [TripleTen](http
 
 ## Descripción
 
-Around The U.S. es una página web interactiva en la que el usuario puede explorar una colección de lugares, crear nuevas tarjetas con imágenes y modificar la información de su perfil.
+Around The U.S. es una aplicación web para explorar tarjetas de lugares, crear nuevas publicaciones y administrar el perfil del usuario. Los datos de perfil y tarjetas se cargan y guardan en la API de TripleTen sin recargar la página.
 
-La lógica del proyecto fue refactorizada de JavaScript a **TypeScript** aplicando principios de **programación orientada a objetos**, como encapsulamiento, herencia, polimorfismo, abstracción y bajo acoplamiento entre componentes.
+El proyecto está desarrollado en TypeScript y aplica programación orientada a objetos, encapsulamiento, herencia, abstracción y bajo acoplamiento.
 
 ## Funcionalidades
 
-### Perfil
+- Carga del perfil y las tarjetas desde el servidor en paralelo.
+- Edición del nombre y la descripción del perfil.
+- Cambio de foto de perfil mediante una URL.
+- Creación de tarjetas y actualización del estado de “Me gusta” en el servidor.
+- Eliminación de tarjetas propias después de confirmar la acción.
+- Apertura de imágenes en un popup.
+- Validación de formularios y estado de carga “Guardando...”.
+- Cierre de ventanas emergentes con el botón, al hacer clic en el overlay o con la tecla `Escape`.
 
-- Visualización del nombre y la descripción del usuario.
-- Edición del perfil mediante un formulario modal.
-- Actualización de la información sin recargar la página.
-- Reinicio de la validación cada vez que se abre el modal.
+## Tecnologías
 
-### Tarjetas
+- HTML5 y CSS3 adaptable a distintos tamaños de pantalla.
+- TypeScript estricto y JavaScript ES2022 compilado.
+- Módulos ES, plantillas HTML y manipulación del DOM.
+- Fetch API, JSON y métodos HTTP.
+- Clases de ES6 y programación orientada a objetos.
 
-- Renderizado de tarjetas iniciales a partir de un arreglo de datos.
-- Creación de nuevas tarjetas mediante un formulario.
-- Título y URL de imagen validados mediante HTML y TypeScript.
-- Activación y desactivación del estado de Me gusta.
-- Eliminación de tarjetas.
-- Visualización ampliada de la imagen y su título mediante un modal.
-
-### Ventanas emergentes
-
-El proyecto utiliza ventanas emergentes para:
-
-- Editar el perfil.
-- Crear una tarjeta.
-- Visualizar una imagen ampliada.
-- Cerrar mediante el botón correspondiente, el área sombreada o la tecla `Escape`.
-
-### Validación de formularios
-
-La clase `FormValidator` se encarga de:
-
-- Comprobar la validez de los campos.
-- Mostrar los mensajes de error del navegador.
-- Aplicar y eliminar las clases visuales de error.
-- Activar o desactivar el botón de envío.
-- Reiniciar el estado visual del formulario.
-
-## Tecnologías utilizadas
-
-- HTML5.
-- CSS3 y diseño responsivo.
-- TypeScript con comprobación estricta.
-- JavaScript ES2022 generado a partir de TypeScript.
-- Manipulación del DOM.
-- Módulos ES.
-- Programación orientada a objetos.
-- Plantillas HTML (`template`).
-- Formularios y validación nativa del navegador.
-
-## Arquitectura TypeScript
-
-La aplicación está organizada por responsabilidades:
+## Arquitectura
 
 | Archivo | Responsabilidad |
 | --- | --- |
-| `src/scripts/index.ts` | Punto de entrada y coordinación de la aplicación. |
-| `src/components/Card.ts` | Construcción y comportamiento de una tarjeta. |
-| `src/components/Section.ts` | Renderizado de colecciones y agregado de elementos al contenedor. |
-| `src/components/FormValidator.ts` | Validación tipada de formularios. |
-| `src/components/Popup.ts` | Comportamiento base de las ventanas emergentes. |
-| `src/components/PopupWithImage.ts` | Popup especializado para imágenes. |
-| `src/components/PopupWithForm.ts` | Popup especializado para formularios. |
-| `src/components/UserInfo.ts` | Lectura y actualización de la información del usuario. |
-| `src/types/types.ts` | Interfaces y tipos compartidos. |
-| `src/utils/constants.ts` | Selectores y clases de configuración de los formularios. |
+| `index.html` | Entrada HTML raíz de la aplicación. |
+| `pages/index.css` | Importa los estilos organizados en `public/blocks` y `public/vendor`. |
+| `src/index.ts` | Entrada TypeScript que carga el punto de entrada de la aplicación. |
+| `src/scripts/index.ts` | Construye las dependencias e inicia `App`. |
+| `src/components/App.ts` | Coordina carga, renderizado y acciones de la interfaz. |
+| `src/components/Api.ts` | Centraliza todas las solicitudes HTTP y comprueba las respuestas. |
+| `src/components/Card.ts` | Renderiza una tarjeta y conecta sus acciones mediante callbacks. |
+| `src/components/Section.ts` | Renderiza colecciones y añade elementos al contenedor. |
+| `src/components/FormValidator.ts` | Valida campos y administra el estado del botón de envío. |
+| `src/components/Popup.ts` | Maneja apertura, cierre, overlay y tecla `Escape`. |
+| `src/components/PopupWithForm.ts` | Extiende el popup base para formularios y estados de carga. |
+| `src/components/PopupWithImage.ts` | Muestra imágenes ampliadas. |
+| `src/components/PopupWithConfirmation.ts` | Confirma acciones de eliminación. |
+| `src/components/UserInfo.ts` | Actualiza nombre, descripción y avatar en el DOM. |
+| `src/types/types.ts` | Define los tipos de formularios y respuestas de la API. |
+| `src/utils/constants.ts` | Centraliza la URL de la API y la configuración de validación. |
+| `public/` | Contiene recursos estáticos y JavaScript compilado. |
 
-### Principios de POO aplicados
+La clase `Api` no conoce los componentes visuales; `App` recibe las dependencias y coordina los callbacks. Los datos que se envían desde formularios tienen tipos distintos de las respuestas completas del servidor.
 
-- **Encapsulamiento:** cada clase administra su propio estado y comportamiento.
-- **Abstracción:** los detalles del DOM quedan separados de la coordinación principal.
-- **Herencia:** `PopupWithImage` y `PopupWithForm` heredan de `Popup`.
-- **Polimorfismo:** las clases hijas sobrescriben métodos como `open()`, `setEventListeners()` y `close()`.
-- **Bajo acoplamiento:** `Card` recibe un callback para abrir el popup de imagen sin depender directamente de su implementación.
-- **Genéricos:** `Section<T>` puede renderizar colecciones de distintos tipos de datos.
+## Token de autorización
 
-## Estructura del proyecto
+El token no está escrito en el código fuente. Antes de cargar la aplicación, guárdalo en `sessionStorage` desde la consola del navegador en el mismo origen:
 
-```text
-.
-├── index.html                      # Entrada raíz compatible con TripleTen
-├── blocks/                         # Hojas de estilo fuente por bloque BEM
-├── images/                         # Imágenes e iconos fuente
-├── pages/index.css                 # Hoja de estilos fuente principal
-├── scripts/index.js                # Puente hacia el código compilado
-├── public/                         # Sitio y salida TypeScript compilada
-│   ├── index.html                  # Entrada compilada independiente
-│   ├── blocks/, images/, pages/    # Recursos estáticos del sitio
-│   ├── components/                 # JavaScript compilado de las clases
-│   ├── scripts/index.js            # Punto de entrada JavaScript compilado
-│   ├── types/                      # Salida compilada de los tipos
-│   └── utils/                      # Salida compilada de las constantes
-├── src/                            # Código fuente TypeScript
-│   ├── components/                 # Clases de la aplicación
-│   ├── scripts/index.ts            # Punto de entrada TypeScript
-│   ├── types/types.ts              # Tipos e interfaces compartidos
-│   └── utils/constants.ts          # Configuración de formularios
-├── vendor/                         # Fuentes y estilos normalizados
-├── .gitignore                      # Archivos excluidos de Git
-├── tsconfig.json                   # Configuración del compilador TypeScript
-├── .prettierignore
-└── README.md
+```js
+sessionStorage.setItem("aroundApiToken", "TU_TOKEN_PERSONAL");
+location.reload();
 ```
 
-Los archivos `.js` de `public/` se generan a partir de `src/`. La entrada raíz conserva la estructura esperada por TripleTen y carga el puente `scripts/index.js`, que importa el código compilado. También se puede abrir la entrada independiente de `public/`. Ambos utilizan módulos ES mediante:
+No publiques el token ni lo guardes en el repositorio. El navegador necesita el valor para autorizar las llamadas a la API. Para usar otro token, reemplaza el valor de `aroundApiToken` en la sesión actual.
 
-```html
-<script type="module" src="./scripts/index.js"></script>
-```
+## Compilar y ejecutar
 
-## Compilación
-
-El proyecto no depende de un `package.json`; se puede utilizar TypeScript mediante `npx`.
-
-Desde la raíz del proyecto, ejecuta:
+Desde la raíz del repositorio, compila TypeScript:
 
 ```bash
 npx --yes --package=typescript@5.9.2 tsc
 ```
-
-El comando:
-
-- Lee los archivos `.ts` incluidos en `src/`.
-- Comprueba los tipos usando `strict: true`.
-- Genera JavaScript ES2022 en `public/`.
-- Genera mapas de código fuente (`.js.map`).
 
 Para comprobar los tipos sin generar archivos:
 
@@ -140,44 +76,38 @@ Para comprobar los tipos sin generar archivos:
 npx --yes --package=typescript@5.9.2 tsc --noEmit
 ```
 
-## Ejecución local
+Abre el `index.html` raíz mediante un servidor local como Live Server. La entrada utiliza recursos CSS de `pages/index.css` y JavaScript compilado de `public/`. No abras el archivo con `file://`, porque los módulos ES pueden quedar bloqueados por el navegador. `public/index.html` redirige a la entrada raíz.
 
-Después de compilar, sirve la raíz del proyecto con un servidor local y abre `index.html`. Esta entrada utiliza los recursos CSS ubicados en la raíz y el JavaScript compilado de `public/`. También puedes servir directamente `public/index.html`.
+## Estructura
 
-1. Abre la carpeta del proyecto.
-2. Ejecuta la compilación de TypeScript.
-3. Inicia Live Server sobre `index.html` o sobre `public/index.html`.
+```text
+.
+├── index.html
+├── pages/index.css
+├── public/
+│   ├── blocks/                 # CSS por bloque BEM
+│   ├── images/                 # Imágenes e iconos
+│   ├── vendor/                 # Normalización y fuentes
+│   ├── components/             # JavaScript compilado de clases
+│   ├── scripts/index.js        # Lógica compilada de la aplicación
+│   ├── index.js                # Entrada JavaScript compilada
+│   └── index.html              # Redirección a index.html
+├── src/
+│   ├── components/             # Clases TypeScript
+│   ├── scripts/index.ts
+│   ├── index.ts
+│   ├── types/types.ts
+│   └── utils/constants.ts
+├── .gitignore
+├── README.md
+└── tsconfig.json
+```
 
-Es recomendable utilizar un servidor local porque los módulos ES pueden bloquearse al abrir directamente el archivo mediante `file://`.
-
-## Accesibilidad
-
-- Los botones con iconos incluyen atributos `aria-label`.
-- Las imágenes de las tarjetas reciben un texto alternativo basado en su título.
-- Los formularios utilizan controles nativos de HTML como `required`, `minlength`, `maxlength` y `type="url"`.
-- Los modales se pueden cerrar mediante botón, overlay o la tecla `Escape`.
-
-## Enlaces del proyecto
+## Enlaces
 
 - [Repositorio en GitHub](https://github.com/safrarugon/web_project_around_es)
 - [Proyecto publicado](https://safrarugon.github.io/web_project_around_es/)
 
-## Objetivo académico
-
-Este proyecto permite practicar:
-
-- Estructuración semántica con HTML.
-- Diseño responsivo con CSS.
-- Manipulación del DOM.
-- Manejo de eventos tipados.
-- Validación de formularios.
-- Plantillas HTML.
-- Módulos ES.
-- Refactorización de JavaScript a TypeScript.
-- Principios de programación orientada a objetos.
-
 ## Autor
 
-Saúl Rubio
-
-Proyecto realizado como parte del curso de Desarrollo Web de TripleTen.
+Saúl Rubio. Proyecto realizado como parte del curso de Desarrollo Web de TripleTen.
